@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý phòng khách sạn</title>
+    <link rel="stylesheet" href="../css/gantt.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Room Management</h2>
+        <div class="input-group">
+            <div class="select-group">
+                <label for="floorSelect">Choose Floor:</label>
+                <select id="floorSelect" onchange="changeFloor()">
+                    <option value="1">Floor 1</option>
+                    <option value="2">Floor 2</option>
+                    <option value="3">Floor 3</option>
+                </select>
+            </div>
+            <div class="select-group">
+                <label for="startDate">From:</label>
+                <input type="datetime-local" id="startDate" onchange="changeTimePeriod()" value='2025-04-01T00:00'>
+                <label for="endDate">To:</label>
+                <input type="datetime-local" id="endDate" onchange="changeTimePeriod()" value='2025-04-07T00:00'>
+            </div>
+        </div>
+        <div id="timeline"></div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3>Booking Details</h3>
+            <p><strong>Customer:</strong> <span id="cust-name"></span></p>
+            <p><strong>Room Number:</strong> <span id="cust-room-num"></span></p>
+            <p><strong>Status:</strong> <span id="cust-status"></span></p>
+            <p><strong>Total Money:</strong> <span id="cust-total-money"></span> USD</p>
+            <p><strong>Deposit:</strong> <span id="cust-deposit"></span> USD</p>
+            <p><strong>Check In:</strong> <span id="cust-time-in"></span></p>
+            <p><strong>Check Out:</strong> <span id="cust-time-out"></span></p>
+            <button id="book-service-btn" onclick="bookService()">🛒 <b>Book Services</b></button>
+            <button id="checkout-btn" onclick="showCheckoutModal()">💳 <b>Check Out</b></button>
+            <button id="checkin-btn" onclick="checkin()">💳 <b>Check In</b></button>
+            <button id="cancel-btn" onclick="showCancelBookingModal()">🗑️ <b>Cancel Booking</b></button>
+            <button id="close-modal-btn" onclick="closeModal()"><b>Close</b></button>
+        </div>
+    </div>
+
+    <!-- Modal Checkout -->
+    <div id="checkoutdetail-modal" class="modal">
+        <div class="modal-content-checkout">
+            <h3>Check Out Details</h3>
+            <p><strong>Guest Name:</strong> <span id="checkout-guest-name"></span></p>
+
+            <h4>Room Information</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Room Number</th>
+                            <th>Check-in Time</th>
+                            <th>Check-out Time</th>
+                            <th>Duration (Hours)</th>
+                            <th>Price/Day</th>
+                            <th>Room Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="checkout-room-details">
+                        <!-- Room details will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Services</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Service Name</th>
+                            <th>Details</th>
+                            <th>Price Each</th>
+                            <th>Quantity</th>
+                            <th>Service Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="checkout-services-details">
+                        <!-- Services will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="checkout-summary">
+                <p><strong>Total Price:</strong> <span id="checkout-total-price">0</span> USD</p>
+                <p><strong>Deposit:</strong> <span id="checkout-deposit">0</span> USD</p>
+                <p><strong>Customer Needs to Pay:</strong> <span id="checkout-remaining">0</span> USD</p>
+            </div>
+
+            <div class="payment-methods" style="display: flex; justify-content: center; align-items: center;">
+                <div class="payment-options">
+                    <p><strong>Payment Method:</strong></p>
+                    <label>
+                        <input type="radio" name="paymentMethod" value="Cash" checked> Cash
+                    </label>
+                    <label>
+                        <input type="radio" name="paymentMethod" value="Visa"> Visa
+                    </label>
+                    <label>
+                        <input type="radio" name="paymentMethod" value="Bank"> Bank Transfer
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button id="checkout-confirm-btn" onclick="checkOut()">Confirm</button>
+                <button id="checkout-cancel-btn" onclick="closeCheckoutModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="addservice-modal" class="modal">
+        <div class="modal-header">
+            <h2>Choose Services</h2>
+        </div>
+        <div class="modal-content">
+            <!-- Left: Service List -->
+            <div class="modal-left">
+                <input type="text" id="searchService" placeholder="Search Service..." onkeyup="filterServices()"
+                    style="margin-top: 10px;">
+                <table id="serviceTable">
+                    <thead>
+                        <tr>
+                            <th>Service Name</th>
+                            <th>Detail</th>
+                            <th>Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="addserviceTableBody"></tbody>
+                </table>
+            </div>
+
+            <!-- Right: Selected Services -->
+            <div class="modal-right">
+                <div class="customer-info" style="margin-top: 10px;">
+                    <label for="addservice-customerName">Customer Name:</label>
+                    <input type="text" id="addservice-customerName" placeholder="Customer Name" readonly>
+
+                    <label for="addservice-roomNumber">Room Number:</label>
+                    <input type="text" id="addservice-roomNumber" placeholder="Room Number" readonly>
+                </div>
+                <h3>Used Services</h3>
+                <table id="addservice-UsedServices">
+                    <thead>
+                        <tr>
+                            <th>Service Name</th>
+                            <th>Detail</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <hr>
+                <h3>Selected Services</h3>
+                <table id="addservice-selectedServices">
+                    <thead>
+                        <tr>
+                            <th>Service Name</th>
+                            <th>Detail</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button onclick="addServicetoBooking()" class="btn">Add Services</button>
+            <button onclick="closeAddServiceModal()" class="btn">Close</button>
+        </div>
+    </div>
+
+    <!-- Cancel Booking Modal -->
+    <div id="cancelbooking-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Cancel Booking</h2>
+            </div>
+            <div class="modal-body">
+                <div class="booking-info">
+                    <p><strong>Guest Name:</strong> <span id="cancelbooking-guest-name"></span></p>
+                    <p><strong>Deposit:</strong> <span id="cancelbooking-deposit"></span> USD</p>
+                </div>
+                <div class="payment-section">
+                    <h3>Payment Method</h3>
+                    <div class="payment-options">
+                        <label>
+                            <input type="radio" name="cancelPaymentMethod" value="Cash" checked> Cash
+                        </label>
+                        <label>
+                            <input type="radio" name="cancelPaymentMethod" value="Visa"> Visa
+                        </label>
+                        <label>
+                            <input type="radio" name="cancelPaymentMethod" value="Bank"> Bank Transfer
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancel-confirm-btn" onclick="confirmCancelBooking()">Confirm Cancel</button>
+                    <button id="cancel-cancel-btn" onclick="closeCancelBookingModal()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../js/gantt.js"></script>
+    <script type="text/javascript">
+        google.charts.load("current", { packages: ["timeline"] });
+        google.charts.setOnLoadCallback(fetchBookings);
+    </script>
+</body>
+
+</html>

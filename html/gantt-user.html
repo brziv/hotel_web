@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý phòng khách sạn</title>
+    <link rel="stylesheet" href="../css/gantt.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Room Management</h2>
+        <div class="input-group">
+            <div class="select-group">
+                <label for="floorSelect">Choose Floor:</label>
+                <select id="floorSelect" onchange="changeFloor()">
+                    <option value="1">Floor 1</option>
+                    <option value="2">Floor 2</option>
+                    <option value="3">Floor 3</option>
+                </select>
+            </div>
+            <div class="select-group">
+                <label for="startDate">From:</label>
+                <input type="datetime-local" id="startDate" onchange="changeTimePeriod()" value='2025-04-01T00:00'>
+                <label for="endDate">To:</label>
+                <input type="datetime-local" id="endDate" onchange="changeTimePeriod()" value='2025-04-07T00:00'>
+            </div>
+        </div>
+        <div id="timeline"></div>
+
+        <script src="../js/gantt-user.js"></script>
+        <script type="text/javascript">
+            google.charts.load("current", { packages: ["timeline"] });
+            google.charts.setOnLoadCallback(fetchBookings);
+        </script>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3>Booking Details</h3>
+            <p><strong>Room Number:</strong> <span id="cust-room-num"></span></p>
+            <p><strong>Status:</strong> <span id="cust-status"></span></p>
+            <p><strong>Check In:</strong> <span id="cust-time-in"></span></p>
+            <p><strong>Check Out:</strong> <span id="cust-time-out"></span></p>
+            <button id="close-modal-btn" onclick="closeModal()"><b>Close</b></button>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

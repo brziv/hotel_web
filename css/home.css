@@ -1,0 +1,226 @@
+/* General styles */
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --secondary-color: #475569;
+    --light-color: #f8fafc;
+    --dark-color: #1e293b;
+    --accent-color: #0ea5e9;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--secondary-color);
+    line-height: 1.6;
+    animation: fadeIn 0.5s ease-out;
+    margin-top: 34px;
+}
+
+/* Hero section */
+.hero-section {
+    background: linear-gradient(rgba(30, 41, 59, 0.8), rgba(30, 41, 59, 0.9)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') no-repeat center center;
+    background-size: cover;
+    min-height: 80vh;
+    position: relative;
+}
+
+.hero-section .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.hero-section .btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Features section */
+.feature-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    background-color: var(--primary-color);
+    color: white;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.feature-icon i {
+    font-size: 1.75rem;
+}
+
+/* User roles section */
+.user-roles-section {
+    background-color: var(--light-color);
+}
+
+.nav-pills .nav-link {
+    color: var(--secondary-color);
+    border-radius: 30px;
+    padding: 10px 20px;
+    margin: 0 5px;
+    transition: all 0.2s ease;
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.tab-content {
+    padding: 30px 0;
+}
+
+.role-features {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1.5rem;
+}
+
+.role-features li {
+    margin-bottom: 0.75rem;
+}
+
+.role-features i {
+    color: var(--primary-color);
+    margin-right: 10px;
+}
+
+/* Stats section */
+.stats-section {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    padding: 4rem 0;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--dark-color);
+    color: white;
+}
+
+.footer h5 {
+    margin-bottom: 1.25rem;
+    color: white;
+}
+
+.footer p {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-links {
+    list-style: none;
+    padding-left: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.social-links a {
+    color: white;
+    font-size: 1.25rem;
+    transition: color 0.2s;
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+    body {
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 65vh;
+    }
+
+    .hero-section h1 {
+        font-size: 2.25rem;
+    }
+
+    .stat-number {
+        font-size: 1.75rem;
+    }
+
+    .tab-pane .row {
+        text-align: center;
+    }
+
+    .tab-pane img {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .order-md-1,
+    .order-md-2 {
+        order: 0 !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .feature-card {
+        padding: 1.5rem;
+    }
+
+    .nav-pills .nav-link {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

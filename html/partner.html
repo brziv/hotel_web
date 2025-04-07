@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/partner.css">
+</head>
+
+<body>
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <h2 class="mb-4 text-center">Partner Management</h2>
+
+                <!-- Search Bar -->
+                <div class="search-container mb-4 d-flex justify-content-center">
+                    <div class="col-md-4">
+                        <input type="text" id="partnerSearch" placeholder="Search" class="form-control">
+                    </div>
+                </div>
+
+                <!-- Input Form -->
+                <form id="partnerForm" class="mb-4">
+                    <div class="row g-2 justify-content-center">
+                        <div class="col-md-2">
+                            <input type="text" id="partnerName" placeholder="Partner Name" class="form-control"
+                                required>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" id="partnerType" placeholder="Partner Type" class="form-control"
+                                required>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="email" id="partnerEmail" placeholder="Email" class="form-control" required>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" id="partnerPhone" placeholder="Phone Number" class="form-control"
+                                required>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" id="partnerAddress" placeholder="Address" class="form-control" required>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary me-2">Add</button>
+                            <button type="button" class="btn btn-success" id="partnerUpdateBtn"
+                                style="display:none;">Update</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table table-hover text-center">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Email</th>
+                                <th>Phone Number</th>
+                                <th>Address</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="partnerTable">
+                            <!-- Partner rows will be rendered here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/partner.js"></script>
+</body>
+
+</html>

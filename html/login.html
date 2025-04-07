@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHotel - Login</title>
+    <link rel="stylesheet" href="../css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Welcome Back</h1>
+                <p>Please enter your credentials to continue</p>
+            </div>
+
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="text" id="username" required placeholder=" ">
+                        <label for="username">Username</label>
+                        <span class="input-highlight"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="password" id="password" required placeholder=" ">
+                        <label for="password">Password</label>
+                        <span class="input-highlight"></span>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <span class="checkmark"></span>
+                        Remember me
+                    </label>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="auth-button">Sign In</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="#" id="signupLink">Create Account</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function () {
+            const token = localStorage.getItem('token');
+            const remember = localStorage.getItem('remember');
+
+            if (token && remember === 'true') {
+                // User is already logged in and chose to be remembered
+                window.location.href = 'gantt.html';
+            }
+        });
+
+        document.getElementById("signupLink").addEventListener("click", function (event) {
+            event.preventDefault();
+            window.parent.document.querySelector("iframe[name='contentFrame']").src = "html/signup.html";
+        });
+
+        document.getElementById("loginForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const remember = document.getElementById("remember").checked;
+
+            try {
+                const response = await fetch('https://hotel-bed.onrender.com/api/Auth/Login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.code === 100) {
+                    // Store token and role in localStorage
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('role', data.role);
+                    localStorage.setItem('username', username);
+                    if (remember) {
+                        localStorage.setItem('remember', 'true');
+                    } else {
+                        // If not checked, we still save the token but don't remember
+                        localStorage.setItem('remember', 'false');
+                    }
+                    if (data.role === 'User') {
+                        window.location.href = 'gantt-user.html';
+                    } else {
+                        window.location.href = 'gantt.html';
+                    }
+                    
+                } else {
+                    alert(data.msg);
+                }
+
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('An error occurred during login');
+            }
+        });
+    </script>
+</body>
+
+</html>

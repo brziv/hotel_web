@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHotel - Create Account</title>
+    <link rel="stylesheet" href="../css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Create Account</h1>
+                <p>Join us to start managing your hotel</p>
+            </div>
+
+            <form class="auth-form" id="signupForm">
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="text" id="username" required placeholder=" ">
+                        <label for="username">Username</label>
+                        <span class="input-highlight"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="password" id="password" required placeholder=" ">
+                        <label for="password">Password</label>
+                        <span class="input-highlight"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="password" id="confirmPassword" required placeholder=" ">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <span class="input-highlight"></span>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="terms-check">
+                        <input type="checkbox" id="terms" required>
+                        <span class="checkmark"></span>
+                        I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="auth-button">Create Account</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="#" id="loginLink">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginLink").addEventListener("click", function (event) {
+            event.preventDefault();
+            window.parent.document.querySelector("iframe[name='contentFrame']").src = "html/login.html";
+        });
+
+        document.getElementById("signupForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            if (password !== confirmPassword) {
+                alert("Passwords don't match");
+                return;
+            }
+
+            try {
+                const response = await fetch('https://hotel-bed.onrender.com/api/Auth/Register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.code === 100) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('role', data.role);
+                    window.location.href = 'gantt.html';
+                } else {
+                    alert(data.msg);
+                }
+                
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('An error occurred during registration');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+body {
+    background: rgb(241, 241, 241);
+    padding-top: 50px;
+}
+
+.container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    width: 93%;
+}
+
+.col-md-1-5 {
+    flex: 0 0 12.5%;
+    max-width: 12.5%;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.table-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+#addStaffModal {
+    top: 100px;
+}
+
+.modal-content {
+    border-radius: 8px;
+}
+
+.modal-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+#addStaffBtn {
+    margin-left: 10px;
+}
+
+@media (max-width: 768px) {
+    .col-md-1-5 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    .table {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .col-auto {
+        width: 100%;
+    }
+
+    .me-2 {
+        margin-right: 0 !important;
+    }
+
+    #addStaffBtn {
+        width: 30%;
+    }
+}
+
+@media (max-width: 576px) {
+    #addStaffBtn {
+        width: 45%;
+    }
+}
