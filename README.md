@@ -53,4 +53,3 @@ The **Hotel Management System** is a web-based application designed to streamlin
 
 ## Run The Project
 - Just open https://brziv.github.io/hotel_web/ on your browser.
-- Currently there is a bug when opening on iOS devices. The menu doesn't show but you can still click on the navigation links.
