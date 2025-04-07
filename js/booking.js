@@ -229,8 +229,8 @@ document.getElementById("book-room").addEventListener("click", function () {
         GuestId: cusid,
         BRdto: SelectedRooms.map(room => ({
             RoomId: room.roomId,
-            CheckInDate: room.checkInDate + ":00.000+07:00",
-            CheckOutDate: room.checkOutDate + ":00.000+07:00",
+            CheckInDate: room.checkInDate,
+            CheckOutDate: room.checkOutDate ,
             // CheckInDate: new Date(room.checkInDate).toISOString(),
             // CheckOutDate: new Date(room.checkOutDate).toISOString(),
         })),
@@ -285,8 +285,8 @@ document.getElementById("pre-book").addEventListener("click", function () {
         Deposit: deposit,
         BRdto: SelectedRooms.map(room => ({
             RoomId: room.roomId,
-            CheckInDate: room.checkInDate + ":00.000+07:00",
-            CheckOutDate: room.checkOutDate + ":00.000+07:00",
+            CheckInDate: room.checkInDate,
+            CheckOutDate: room.checkOutDate,
             // CheckInDate: new Date(room.checkInDate).toISOString(),
             // CheckOutDate: new Date(room.checkOutDate).toISOString(),
         })),
